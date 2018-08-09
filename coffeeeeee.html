@@ -1,0 +1,343 @@
+<html>
+  <head>
+    <title>COFFEE ADVENTURES</title>
+  </head>
+  <link rel="stylesheet" type="text/css" href="cofffeeeee.css">
+
+  <body>
+    <h1>COFFEE ADVENTURES</h1>
+
+    <h3>PARTICIPANTS</h3>
+    <div id="participants">
+      <p id="countParticipants"></p>
+      <table id="participantsTable"></table>
+    </div>
+
+    <h3>TO VISIT</h3>
+    <div id="toVisit">
+      <p id="countToVisit"></p>
+      <table id="toVisitTable"></table>
+    </div>
+
+    <button onclick="document.getElementById('addVisitPopup').style.display='block'" style="width:auto;">Add</button>
+    <div id="addVisitPopup" class="modal">
+      <form class="modal-content animate" onSubmit="test();">
+        <div class="imgcontainer">
+          <span onclick="document.getElementById('addVisitPopup').style.display='none'" class="close" title="Close Modal">&times;</span>
+        </div>
+        <div class="container">
+          <label for="shop"><b>Shop</b></label>
+          <input type="text" placeholder="Enter Shop" name="shop" required>
+
+          <label for="location"><b>Location</b></label>
+          <input type="text" placeholder="Enter Location" name="location" required>
+
+          <input type="submit">Submit</input>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+          <button type="button" onclick="document.getElementById('addVisitPopup').style.display='none'" class="cancelbtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- <button onclick="document.getElementById('markVisitedPopup').style.display='block'" style="width:auto;">MarkVisited</button> -->
+    <div id="markVisitedPopup" class="modal">
+      <form class="modal-content animate">
+        <div class="imgcontainer">
+          <span onclick="document.getElementById('markVisitedPopup').style.display='none'" class="close" title="Close Modal">&times;</span>
+        </div>
+
+        <div class="container">
+          <input type="hidden" id="shopIndex" name="shopIndex">
+
+          <label for="shop"><b>Shop</b></label>
+          <input id="markVisitedPopupShop" type="text" name="shop" disabled="disabled" required>
+
+          <label for="location"><b>Location</b></label>
+          <input id="markVisitedPopupLocation" type="text" name="location" disabled="disabled" required>
+
+          <label for="kalynn"><b>Kalynn</b></label>
+          <input id="markVisitedPopupKalynn" type="number" min="1" max="10" value="1">
+
+          <label for="steph"><b>Kaimeng</b></label>
+          <input id="markVisitedPopupSteph" type="number" min="1" max="10" value="1">
+
+          <label for="harman"><b>Harmanjeet</b></label>
+          <input id="markVisitedPopupHarm" type="number" min="1" max="10" value="1" >
+
+          <input type="submit" type="submit" value="submit" onclick="return markedAsVisited2(this);">
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+          <button type="button" onclick="document.getElementById('markVisitedPopup').style.display='none'" class="cancelbtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <h3>VISITED</h3>
+    <div id="visited">
+      <p id="countVisited"></p>
+      <table id="visitedTable"></table>
+    </div>
+
+  </body>
+
+  <script>
+
+// participants
+  var participantsList = ["Participant", "Kalynn Kosyka", "Kaimeng Cao", "Harmanjeet Singh Dhillon"];
+  function participantsTable(){
+    var table = document.createElement('table');
+    for (var i = 0; i < participantsList.length; i++){
+      if(i == 0){
+        var tr = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var num = document.createTextNode("No.");
+        var participant = document.createTextNode(participantsList[i]);
+        td1.appendChild(num);
+        td2.appendChild(participant);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        table.appendChild(tr);
+      }else{
+        var tr = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var num = document.createTextNode(i);
+        var participant = document.createTextNode(participantsList[i]);
+        td1.appendChild(num);
+        td2.appendChild(participant);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        table.appendChild(tr);
+      }
+    }
+    document.getElementById('participantsTable').appendChild(table);
+
+    var counter = document.createElement('p')
+    var count = document.createTextNode("(" + (participantsList.length-1) + " participants)");
+    counter.appendChild(count);
+    document.getElementById('countParticipants').appendChild(counter);
+  }
+
+  function addParticipant(){
+    participantsList.add();
+  }
+
+// to visit
+  var toVistList = [["Shop", "Location", ""],
+                    ["Smartworld Coffee", "Morristown, NJ", "https://www.yelp.com/biz/smartworld-coffee-morristown"],
+                    ["The Artist Baker", "Morristown, NJ", "https://www.yelp.com/biz/the-artist-baker-morristown?osq=coffee"],
+                    ["Morristown Farmers Market", "Morristown, NJ", "https://www.yelp.com/biz/morristown-farmers-market-morristown?osq=coffee"],
+                    ["Saigon Subs & Cafe", "Morristown, NJ", "https://www.yelp.com/biz/saigon-subs-and-caf%C3%A9-morristown-3?uid=Fjk-OOMDLDMsMt56QznMFA&utm_campaign=www_business_share_popup&utm_medium=copy_link&utm_source=(direct)"]
+                    ];
+  function toVisitTable(){
+    var table = document.createElement('table');
+    for (var i = 0; i < toVistList.length; i++){
+      if(i == 0){
+        var tr = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var store = document.createTextNode(toVistList[i][0]);
+        var td3 = document.createElement('td');
+        var td4 = document.createElement('td');
+        var td5 = document.createElement('td');
+        var num = document.createTextNode("No.");
+        var location = document.createTextNode(toVistList[i][1]);
+        var remove = document.createTextNode("Remove");
+        var markVisited = document.createTextNode("Mark Vistited");
+        td1.appendChild(num);
+        td2.appendChild(store);
+        td3.appendChild(location);
+        td4.appendChild(remove);
+        td5.appendChild(markVisited);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        table.appendChild(tr);
+      }else{
+        var tr = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var link = document.createElement('a');
+        link.setAttribute('href', toVistList[i][2]);
+        var store = document.createTextNode(toVistList[i][0]);
+        link.appendChild(store);
+        link.setAttribute('target', '_blank');
+        var td3 = document.createElement('td');
+        var td4 = document.createElement('td');
+        var td5 = document.createElement('td');
+        var num = document.createTextNode(i);
+        var location = document.createTextNode(toVistList[i][1]);
+        var removeBtn = document.createElement('input');
+        removeBtn.setAttribute('type', 'button');
+        removeBtn.setAttribute('value', 'Remove');
+        removeBtn.setAttribute('onclick', 'removeRow(this)');
+        td4.appendChild(removeBtn);
+        var markVistedBtn = document.createElement('input');
+        markVistedBtn.setAttribute('type', 'button');
+        markVistedBtn.setAttribute('value', 'Mark');
+        markVistedBtn.setAttribute('onclick', 'markedAsVisited(this)');
+        td5.appendChild(markVistedBtn);
+        td1.appendChild(num);
+        td2.appendChild(link);
+        td3.appendChild(location);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        table.appendChild(tr);
+      }
+    }
+    document.getElementById('toVisitTable').appendChild(table);
+    var counter = document.createElement('p')
+    var count = document.createTextNode("(" + (toVistList.length-1) + " to visit)");
+    counter.appendChild(count);
+    document.getElementById('countToVisit').appendChild(counter);
+  }
+
+  function addToVisit(){
+    visitedList.push(currVisit);
+    alert(visitedList);
+    updateTables();
+  }
+
+  function markedAsVisited(oButton){
+    var index = oButton.parentNode.parentNode.rowIndex;
+    document.getElementById('markVisitedPopup').style.display='block';
+    document.getElementById('shopIndex').value = index;
+    document.getElementById('markVisitedPopupShop').value = toVistList[index][0];
+    document.getElementById('markVisitedPopupLocation').value = toVistList[index][1];
+
+    // document.getElementById('markVisitedPopupKalynn').value = "KALYNN";
+    // document.getElementById('markVisitedPopupSteph').value = "KALYNN";
+    // document.getElementById('markVisitedPopupHarm').value = "KALYNN";
+  }
+
+  function markedAsVisited2(value){
+        var index = document.getElementById('shopIndex').value;
+        var kalynnVal = document.getElementById('markVisitedPopupKalynn').value;
+        var stephVal = document.getElementById('markVisitedPopupSteph').value;
+        var harmVal = document.getElementById('markVisitedPopupHarm').value;
+        var currVisit = toVistList[index];
+        currVisit.push(kalynnVal, stephVal, harmVal);
+        document.getElementById('markVisitedPopup').style.display='none';
+        addToVisit(currVisit);
+  }
+
+  function removeRow(oButton){
+      alert(oButton);
+      var empTab = document.getElementById('toVisitTable');
+      var index = oButton.parentNode.parentNode.rowIndex;
+      rmRow(index);
+      updateTables();
+    }
+
+    function rmRow(index){
+      if (index != -1) {
+          toVistList.splice(index, 1);
+      }
+    }
+
+// visited
+  var visitedList = [["Shop", "Location", "", "Kalynn", "Kaimeng", "Harmanjeet"],
+                    ["Verrilli's Bakery", "Morristown, NJ", "https://www.yelp.com/biz/verrillis-bakery-morristown-6?osq=verrilli", "7", "-", "6.8"]];
+  function visitedTable(){
+    var table = document.createElement('table');
+    for (var i = 0; i < visitedList.length; i++){
+      if(i == 0){
+        var tr = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var link = document.createElement('a');
+        var store = document.createTextNode(visitedList[i][0]);
+        var td3 = document.createElement('td');
+        var num = document.createTextNode("No.");
+        var location = document.createTextNode(visitedList[i][1]);
+        var td4 = document.createElement('td');
+        var td5 = document.createElement('td');
+        var td6 = document.createElement('td');
+        var rating1 = document.createTextNode(visitedList[i][3]);
+        var rating2 = document.createTextNode(visitedList[i][4]);
+        var rating3 = document.createTextNode(visitedList[i][5]);
+        td1.appendChild(num);
+        td2.appendChild(store);
+        td3.appendChild(location);
+        td4.appendChild(rating1);
+        td5.appendChild(rating2);
+        td6.appendChild(rating3);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
+        table.appendChild(tr);
+      }else{
+        var tr = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var link = document.createElement('a');
+        link.setAttribute('href', visitedList[i][2]);
+        link.setAttribute('target', '_blank');
+        var store = document.createTextNode(visitedList[i][0]);
+        link.appendChild(store);
+        var td3 = document.createElement('td');
+        var num = document.createTextNode(i);
+        var location = document.createTextNode(visitedList[i][1]);
+        var td4 = document.createElement('td');
+        var td5 = document.createElement('td');
+        var td6 = document.createElement('td');
+        var rating1 = document.createTextNode(visitedList[i][3]);
+        var rating2 = document.createTextNode(visitedList[i][4]);
+        var rating3 = document.createTextNode(visitedList[i][5]);
+        td1.appendChild(num);
+        td2.appendChild(link);
+        td3.appendChild(location);
+        td4.appendChild(rating1);
+        td5.appendChild(rating2);
+        td6.appendChild(rating3);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
+        table.appendChild(tr);
+      }
+    }
+    document.getElementById('visitedTable').appendChild(table);
+    var counter = document.createElement('p')
+    var count = document.createTextNode("(" + (visitedList.length-1) + " visited)");
+    counter.appendChild(count);
+    document.getElementById('countVisited').appendChild(counter);
+  }
+
+  function updateTables(){
+    document.getElementById("countToVisit").innerHTML = "";
+    document.getElementById("toVisitTable").innerHTML = "";
+    document.getElementById("countVisited").innerHTML = "";
+    document.getElementById("visitedTable").innerHTML = "";
+    toVisitTable();
+    visitedTable();
+  }
+
+  //run
+  function run(){
+    participantsTable();
+    toVisitTable();
+    visitedTable();
+  }
+
+  run();
+  </script>
+</html>
+
+
+
+<!-- https://www.encodedna.com/javascript/dynamically-add-remove-rows-to-html-table-using-javascript-and-save-data.htm -->
